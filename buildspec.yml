@@ -18,15 +18,13 @@ phases:
       - docker-compose up -d
 
       # Application Tests with Testcafe
-      # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
-      - testcafe "chrome:headless" testcafe/tests/test.js --skip-js-errors
-
       # Application Tests with CRS with Testcafe
-      - testcafe "chrome:headless" testcafe/tests/testcrs.js --skip-js-errors
+      # WAF Tests with malicous request to test WAF itself
+      # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
+      - testcafe "chrome:headless" testcafe/tests/*.js --skip-js-errors
+
       #- docker cp testcafe:/tmp/res.xml /tmp/test-results/
 
-      # WAF Tests with malicous request to test WAF itself
-      - testcafe "chrome:headless" testcafe/tests/testwaf.js --skip-js-errors
 
       # Fail if ModSecurity log is not empty
       # Show ModSecurity logs of Testcafe Tests
