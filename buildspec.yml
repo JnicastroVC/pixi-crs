@@ -9,7 +9,6 @@ phases:
   build:
     commands:
       - docker-compose up -d
-      - ls
       - ls testcafe/tests/testcrs.js
       - ls ${PWD}/testcafe/tests/testcrs.js
       - npm install -g testcafe
@@ -60,15 +59,16 @@ phases:
 #          name: Application Tests with Testcafe
       # https://circleci.com/docs/2.0/building-docker-images/#mounting-folders
       # creating dummy container which will hold a volume with config
-      - docker create -v /tests --name configs alpine:latest /bin/true
+      #- docker create -v /tests --name configs alpine:latest /bin/true
       # copying config file into this volume
-      - docker cp testcafe/tests/test.js configs:/tests
+      #- docker cp testcafe/tests/test.js configs:/tests
 #             #docker cp /home/circleci/project/testcafe/tests/mongodb.js configs:/tests
       # starting application container using this volume
-      # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
-      - docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js #/tests/mongodb.js
+      ## skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
+      #- docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js #/tests/mongodb.js
       #- docker cp testcafe:/tmp/res.xml /tmp/test-results/
 ##            docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --reporter xunit:/tmp/res.xml --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js /tests/mongodb.js
+       - testcafe --skip-js-errors chromium:headless --no-sandbox tests/test.js
 #
 #          name: Application Tests with CRS with Testcafe
       #- docker cp testcafe/tests/testcrs.js configs:/tests
