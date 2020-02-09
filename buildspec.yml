@@ -8,7 +8,7 @@ phases:
 
   build:
     commands:
-       docker-compose up -d
+      - docker-compose up -d
 
       # OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
       # owasp/modsecurity-crs
@@ -20,10 +20,8 @@ phases:
       # See https://coreruleset.org/
       #
       # PROXYLOCATION:    application backend
-
-    #http://172.17.0.2:443
-    #we set inbound and outbound anomaly score to 1, no tolerance
-    commands:
+      #http://172.17.0.2:443
+      #we set inbound and outbound anomaly score to 1, no tolerance
       - docker run -dt --name apachecrstc -e PARANOIA=2 -e ALLOWED_METHODS='GET HEAD POST OPTIONS PUT' -e ANOMALYIN=1 -e ANOMALYOUT=1 -e PROXYLOCATION=http://172.17.0.1:8000/ owasp/modsecurity-crs:v3.2-modsec2-apache
 
       # ModSecurity Tuning:
