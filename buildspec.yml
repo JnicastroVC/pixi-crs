@@ -12,6 +12,7 @@ phases:
       - ls
       - ls testcafe/tests/testcrs.js
       - ls ${PWD}/testcafe/tests/testcrs.js
+      - npm install -g testcafe
       # OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
       # owasp/modsecurity-crs
       # Environment variables:
