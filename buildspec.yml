@@ -6,28 +6,18 @@ phases:
     runtime-versions:
       docker: 18
 
-  build:
-    commands:
-      - docker-compose up -d
+  install:
       - npm install -g testcafe
 
+  build:
+    commands:
+      # Start the OWASP ModSecurity Core Rule Set and Pixi with its DB with docker-compose
       # OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
       # owasp/modsecurity-crs
-      # Environment variables:
-      # PARANOIA:   paranoia_level
-      # ANOMALYIN:  inbound_anomaly_score_threshold
-      # ANOMALYOUT: outbound_anomaly_score_threshold 
-      # ALLOWED_METHODS: A string indicating the allowed_methods (Default: GET HEAD POST OPTIONS)
       # See https://coreruleset.org/
-      #
-      # PROXYLOCATION:    application backend
-      # we set inbound and outbound anomaly score to 1, no tolerance
-
       # ModSecurity Tuning:
       # See https://www.netnea.com/cms/apache-tutorial-8_handling-false-positives-modsecurity-core-rule-set/
-      # We use rule exclusion example files:
-      # REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf OR
-      # RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
+      - docker-compose up -d
 
       # Application Tests with Testcafe
       # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
@@ -42,7 +32,7 @@ phases:
 
       # Fail if ModSecurity log is not empty
       # Show ModSecurity logs of Testcafe Tests
-      - docker exec apachecrstc cat /var/log/apache2/error.log grep ModSecurity #| grep -vi "My evil WAF Test" | grep -v " Score: 30" | grep msg && exit 1 || exit 0
+      - docker exec pixicrs_crs_1 cat /var/log/apache2/error.log | grep ModSecurity | grep -v notice #| grep -vi "My evil WAF Test" | grep -v " Score: 30" | grep msg && exit 1 || exit 0
 
       # If not empty -> Repair your application OR
       #              -> ModSecurity Tuning:
@@ -52,10 +42,9 @@ phases:
       # Fail if ModSecurity log does not contain WAF Test String "My evil WAF Test"
       # '<script>alert("My evil WAF Test")</script>'
       # Search for WAF Test String "My evil WAF Test" in ModSecurity logs
-      - docker exec apachecrstc cat /var/log/apache2/error.log
+      - docker exec pixicrs_crs_1 cat /var/log/apache2/error.log
       # If empty -> WAF Test String <script>alert(My evil WAF Test)</script>
       # did not trigger a CRS rule. 
       # That means CRS is not working properly or test was aborted.
 #              
-#      - store_test_results:
-###           path: /tmp/test-results 
+      

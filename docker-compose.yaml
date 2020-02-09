@@ -5,7 +5,6 @@ services:
 # Comment in crs part if you want to add a WAF in front of Pixi:
   crs:
     image: owasp/modsecurity-crs:v3.2-modsec2-apache
-    container_name: apachecrstc
     ports:
       - "80:80"
       - "443:443"
