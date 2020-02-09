@@ -30,7 +30,7 @@ phases:
 
       # Fail if ModSecurity log is not empty
       # Show ModSecurity logs of Testcafe Tests
-      - docker exec pixicrs_crs_1 cat /var/log/apache2/error.log | grep ModSecurity | grep -v notice #| grep -vi "My evil WAF Test" | grep -v " Score: 30" | grep msg && exit 1 || exit 0
+      - docker exec crs cat /var/log/apache2/error.log | grep ModSecurity | grep -v notice #| grep -vi "My evil WAF Test" | grep -v " Score: 30" | grep msg && exit 1 || exit 0
 
       # If not empty -> Repair your application OR
       #              -> ModSecurity Tuning:
@@ -40,7 +40,7 @@ phases:
       # Fail if ModSecurity log does not contain WAF Test String "My evil WAF Test"
       # '<script>alert("My evil WAF Test")</script>'
       # Search for WAF Test String "My evil WAF Test" in ModSecurity logs
-      - docker exec pixicrs_crs_1 cat /var/log/apache2/error.log
+      - docker exec crs cat /var/log/apache2/error.log
       # If empty -> WAF Test String <script>alert(My evil WAF Test)</script>
       # did not trigger a CRS rule. 
       # That means CRS is not working properly or test was aborted.
