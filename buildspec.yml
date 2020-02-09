@@ -59,13 +59,13 @@ phases:
 #          name: Application Tests with Testcafe
       # https://circleci.com/docs/2.0/building-docker-images/#mounting-folders
       # creating dummy container which will hold a volume with config
-      #- docker create -v /tests --name configs alpine:latest /bin/true
+      - docker create -v /tests --name configs alpine:latest /bin/true
       # copying config file into this volume
-      #- docker cp testcafe/tests/test.js configs:/tests
+      - docker cp testcafe/tests/test.js configs:/tests
 #             #docker cp /home/circleci/project/testcafe/tests/mongodb.js configs:/tests
       # starting application container using this volume
       # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
-      #- docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js #/tests/mongodb.js
+      - docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js #/tests/mongodb.js
       #- docker cp testcafe:/tmp/res.xml /tmp/test-results/
 ##            docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --reporter xunit:/tmp/res.xml --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js /tests/mongodb.js
 #
@@ -78,7 +78,7 @@ phases:
 #             # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
       #- docker run --volumes-from configs:rw --name testcafecrs -it testcafe/testcafe --skip-js-errors 'chromium:headless --no-sandbox' /tests/testcrs.js #/tests/testcrs-match.js /tests/mongodbcrs.js
       #- docker cp testcafe:/tmp/res.xml /tmp/test-results/
-      - docker run -v ${PWD}/testcafe/tests:/tests -it testcafe/testcafe chrome /tests/testcrs.js --skip-js-errors --reporter xunit:/tmp/test-results/res.xml
+      #- docker run -v ${PWD}/testcafe/tests:/tests -it testcafe/testcafe chrome /tests/testcrs.js --skip-js-errors --reporter xunit:/tmp/test-results/res.xml
 #
 #      - run:
 #          name: WAF Tests with malicous request to test WAF itself
