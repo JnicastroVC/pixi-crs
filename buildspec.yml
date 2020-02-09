@@ -9,7 +9,7 @@ phases:
   build:
     commands:
       - docker-compose up -d
-      - ls testcafe/tests/testcrs.js
+      - ls tchromeestcafe/tests/testcrs.js
       - ls ${PWD}/testcafe/tests/testcrs.js
       - npm install -g testcafe
       # OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
@@ -68,7 +68,7 @@ phases:
       #- docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js #/tests/mongodb.js
       #- docker cp testcafe:/tmp/res.xml /tmp/test-results/
 ##            docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --reporter xunit:/tmp/res.xml --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js /tests/mongodb.js
-       - testcafe --skip-js-errors chromium:headless --no-sandbox tests/test.js
+       - testcafe --skip-js-errors "chromium:headless --no-sandbox" tests/test.js
 #
 #          name: Application Tests with CRS with Testcafe
       #- docker cp testcafe/tests/testcrs.js configs:/tests
