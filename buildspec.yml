@@ -65,7 +65,7 @@ phases:
       #- docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js #/tests/mongodb.js
       #- docker cp testcafe:/tmp/res.xml /tmp/test-results/
 ##            docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --reporter xunit:/tmp/res.xml --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js /tests/mongodb.js
-      - testcafe chromium:headless testcafe/tests/test.js --skip-js-errors
+      - testcafe "chromium:headless" testcafe/tests/test.js --skip-js-errors
 #
 #          name: Application Tests with CRS with Testcafe
       #- docker cp testcafe/tests/testcrs.js configs:/tests
