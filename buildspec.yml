@@ -9,7 +9,9 @@ phases:
   build:
     commands:
       - docker-compose up -d
-
+      - ls
+      - ls testcafe/tests/testcrs.js
+      - ls {PWD}/testcafe/tests/testcrs.js
       # OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
       # owasp/modsecurity-crs
       # Environment variables:
