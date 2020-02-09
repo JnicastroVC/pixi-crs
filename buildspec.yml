@@ -8,8 +8,6 @@ phases:
 
   build:
     commands:
-      - pwd
-      - ls
       - docker-compose up -d
 
       # OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
@@ -50,40 +48,36 @@ phases:
       #      docker exec apachecrstc /usr/local/apache2/bin/apachectl -f /usr/local/apache2/conf/httpd.conf -k graceful
 #
        # Debugging possibilities:
-      - docker run -dt --name curl hiromasaono/curl
-      - docker exec -ti curl curl http://172.17.0.1:8000/register
-      - docker exec -ti curl curl http://172.17.0.2/register
+      # - docker run -dt --name curl hiromasaono/curl
+      # - docker exec -ti curl curl http://172.17.0.1:8000/register
+      # - docker exec -ti curl curl http://172.17.0.2/register
 #      - docker exec -ti apachecrs cat /var/log/apache2/error.log
 #      - docker exec -ti apachecrs curl 172.17.0.1:8000
 ##
-#      - run:
 #          name: Application Tests with Testcafe
-#          command: |
-#             # https://circleci.com/docs/2.0/building-docker-images/#mounting-folders
-#             # creating dummy container which will hold a volume with config
-#             docker create -v /tests --name configs alpine:latest /bin/true
-#             # copying config file into this volume
-#             docker cp /home/circleci/project/testcafe/tests/test.js configs:/tests
+      # https://circleci.com/docs/2.0/building-docker-images/#mounting-folders
+      # creating dummy container which will hold a volume with config
+      - docker create -v /tests --name configs alpine:latest /bin/true
+      # copying config file into this volume
+      - docker cp /home/circleci/project/testcafe/tests/test.js configs:/tests
 #             #docker cp /home/circleci/project/testcafe/tests/mongodb.js configs:/tests
-#             # starting application container using this volume
-#             docker pull testcafe/testcafe
-#             # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
-#             docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js #/tests/mongodb.js
-##            docker cp testcafe:/tmp/res.xml /tmp/test-results/
+      # starting application container using this volume
+      - docker pull testcafe/testcafe
+      # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
+      - docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js #/tests/mongodb.js
+      - docker cp testcafe:/tmp/res.xml /tmp/test-results/
 ##            docker run --volumes-from configs:rw --name testcafe -it testcafe/testcafe --reporter xunit:/tmp/res.xml --skip-js-errors 'chromium:headless --no-sandbox' /tests/test.js /tests/mongodb.js
 #
-#      - run:
 #          name: Application Tests with CRS with Testcafe
-#          command: |
-#             docker cp /home/circleci/project/testcafe/tests/testcrs.js configs:/tests
+      - docker cp /home/circleci/project/testcafe/tests/testcrs.js configs:/tests
 #             # Intentionally trigger an error with a Testcafe Test that calls $select in ARGS_GET:
 #             # docker cp /home/circleci/project/testcafe/tests/testcrs-match.js configs:/tests
 #             # Some evil Mongo DB statements:
 #             # docker cp /home/circleci/project/testcafe/tests/mongodbcrs.js configs:/tests
 #             # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
-#             docker run --volumes-from configs:rw --name testcafecrs -it testcafe/testcafe --skip-js-errors 'chromium:headless --no-sandbox' /tests/testcrs.js #/tests/testcrs-match.js /tests/mongodbcrs.js
-##            docker cp testcafe:/tmp/res.xml /tmp/test-results/
-##            docker run -v /home/circleci/project/testcafe/tests:/tests -it testcafe/testcafe chrome /tests/testcrs.js --skip-js-errors --reporter xunit:/tmp/test-results/res.xml
+      - docker run --volumes-from configs:rw --name testcafecrs -it testcafe/testcafe --skip-js-errors 'chromium:headless --no-sandbox' /tests/testcrs.js #/tests/testcrs-match.js /tests/mongodbcrs.js
+      - docker cp testcafe:/tmp/res.xml /tmp/test-results/
+      - docker run -v /home/circleci/project/testcafe/tests:/tests -it testcafe/testcafe chrome /tests/testcrs.js --skip-js-errors --reporter xunit:/tmp/test-results/res.xml
 #
 #      - run:
 #          name: WAF Tests with malicous request to test WAF itself
