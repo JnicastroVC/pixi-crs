@@ -10,7 +10,7 @@ services:
       - "80:80"
       - "443:443"
 
-      # environment:
+    environment:
       # Application Backend listens on port 8000 (IP: REPLACEME, but do not use localhost!)
       - PROXYLOCATION=http://app:8000/
       # Paranoia Level
