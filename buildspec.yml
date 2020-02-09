@@ -44,7 +44,7 @@ phases:
 
       # Fail if ModSecurity log is not empty
       # Show ModSecurity logs of Testcafe Tests
-      - docker exec apachecrstc cat /var/log/apache2/error.log grep ModSecurity | grep -vi "My evil WAF Test" | grep -v " Score: 30" | grep msg && exit 1 || exit 0
+      - docker exec apachecrstc cat /var/log/apache2/error.log grep ModSecurity #| grep -vi "My evil WAF Test" | grep -v " Score: 30" | grep msg && exit 1 || exit 0
 
       # If not empty -> Repair your application OR
       #              -> ModSecurity Tuning:
