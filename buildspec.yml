@@ -8,6 +8,8 @@ phases:
 
   build:
     commands:
+      - pwd
+      - ls
       - docker-compose up -d
 
       # OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
