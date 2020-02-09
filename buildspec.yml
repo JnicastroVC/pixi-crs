@@ -9,8 +9,6 @@ phases:
   build:
     commands:
       - docker-compose up -d
-      - ls tchromeestcafe/tests/testcrs.js
-      - ls ${PWD}/testcafe/tests/testcrs.js
       - npm install -g testcafe
       # OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
       # owasp/modsecurity-crs
