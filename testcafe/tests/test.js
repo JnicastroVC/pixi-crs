@@ -9,8 +9,6 @@ test('Register User', async t => {
         .typeText('input#email', 'testuser@pixi.owasp')
         .typeText('input#password', 'testpw')
         .click('body > div.jumbotron.jumbotron-fluid > div > div:nth-child(5) > div.col-8 > form > button')
-        //After registration the search pixi field should be there
-        //.expect('#search_query')
 });
 
 test('Login User', async t => {
@@ -30,7 +28,6 @@ test('Search String in Search Box', async t => {
         //After login we search for Lunch
         .typeText('#search_query', 'Lunch')
         .pressKey('enter')
-        //.expect('body > div > div:nth-child(12) > div > div.card-deck')
 });
 /*
 test('Click About', async t => {
@@ -67,13 +64,3 @@ test('Logout User', async t => {
 	.click('body > div.jumbotron.jumbotron-fluid > div > div:nth-child(5) > div.col-8 > form > button')
 	.click('body > div > div:nth-child(1) > div.col-md-7 > ul > li:nth-child(4) > a')
 });
-
-test('Repeat Login for Video', async t => {
-    await t
-        .typeText('input#email', 'testuser@pixi.owasp')
-        .typeText('input#password', 'testpw')
-        .click('body > div.jumbotron.jumbotron-fluid > div > div:nth-child(5) > div.col-8 > form > button')
-        //After registration the search pixi field should be there
-        //.expect('#search_query')
-});
-
