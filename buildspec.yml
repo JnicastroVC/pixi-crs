@@ -6,11 +6,9 @@ phases:
     runtime-versions:
       docker: 18
 
-  install:
-      - npm install -g testcafe
-
   build:
     commands:
+      - npm install -g testcafe
       # Start the OWASP ModSecurity Core Rule Set and Pixi with its DB with docker-compose
       # OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
       # owasp/modsecurity-crs
