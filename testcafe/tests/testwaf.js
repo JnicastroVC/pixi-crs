@@ -7,6 +7,6 @@ fixture`Getting Started`
 test('WAF Test with malicious string', async t => {
     await t
         .typeText('input#user', 'testuser@pixi.owasp')
-        .typeText('input#pass', 'testpw')
+        .typeText('input#pass', '<script>MyEvilWAFTest</script>')
         .click('body > div.jumbotron.jumbotron-fluid > div > div:nth-child(5) > div.col-8 > form > button')
 });
