@@ -42,6 +42,6 @@ phases:
               
       # Fail if ModSecurity log does not contain WAF Test String "MyEvilWAFTest"
       # That means CRS is not working properly or test was aborted.
-      - docker exec crs cat /var/log/apache2/error.log | grep MyEvilWAFTest
+      - docker exec crs cat /var/log/apache2/error.log | grep -q MyEvilWAFTest
               
       
