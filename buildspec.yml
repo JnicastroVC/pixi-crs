@@ -33,18 +33,15 @@ phases:
       - docker exec crs cat /var/log/apache2/error.log
       # Fail if ModSecurity log is not empty
       # Show ModSecurity logs of Testcafe Tests
-      - docker exec crs cat /var/log/apache2/error.log | grep ModSecurity | grep error #| grep -vi "My evil WAF Test" | grep -v " Score: 30" | grep msg && exit 1 || exit 0
+      - docker exec crs cat /var/log/apache2/error.log | grep ModSecurity | grep error | grep -vi "MyEvilWAFTest" | grep -v "949110" | grep -vi "980130" && exit 1 || exit 0
 
       # If not empty -> Repair your application OR
       #              -> ModSecurity Tuning:
       # See https://www.netnea.com/cms/apache-tutorial-8_handling-false-positives-modsecurity-core-rule-set/ OR
       #              -> GitHub issue: https://github.com/SpiderLabs/owasp-modsecurity-crs
               
-      # Fail if ModSecurity log does not contain WAF Test String "My evil WAF Test"
-      # '<script>alert("My evil WAF Test")</script>'
-      # Search for WAF Test String "My evil WAF Test" in ModSecurity logs
-      # If empty -> WAF Test String <script>alert(My evil WAF Test)</script>
-      # did not trigger a CRS rule. 
+      # Fail if ModSecurity log does not contain WAF Test String "MyEvilWAFTest"
       # That means CRS is not working properly or test was aborted.
-#              
+      - docker exec crs cat /var/log/apache2/error.log | grep MyEvilWAFTest
+              
       
