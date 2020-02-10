@@ -30,7 +30,6 @@ phases:
 
   post_build:
     commands:
-      - docker exec crs cat /var/log/apache2/error.log
       # Fail if ModSecurity log is not empty
       # Show ModSecurity logs of Testcafe Tests
       - docker exec crs cat /var/log/apache2/error.log | grep ModSecurity | grep error | grep -vi "MyEvilWAFTest" | grep -v "949110" | grep -vi "980130" && exit 1 || exit 0
@@ -43,5 +42,8 @@ phases:
       # Fail if ModSecurity log does not contain WAF Test String "MyEvilWAFTest"
       # That means CRS is not working properly or test was aborted.
       - docker exec crs cat /var/log/apache2/error.log | grep -q MyEvilWAFTest
+
+      # Show ModSecurity Full Logs:
+      - docker exec crs cat /var/log/apache2/error.log | grep ModSecurity
               
       
