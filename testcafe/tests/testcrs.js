@@ -7,7 +7,8 @@ fixture`Getting Started`
 test('Register User WITH CRS', async t => {
     await t
         .typeText('input#email', 'testuser@pixi.owasp')
-        .typeText('input#password', 'testpw')
+        .typeText('input#password', '<script>alert("My evil WAF Test");</script>')
+//        .typeText('input#password', 'testpw')
         .click('body > div.jumbotron.jumbotron-fluid > div > div:nth-child(5) > div.col-8 > form > button')
 });
 

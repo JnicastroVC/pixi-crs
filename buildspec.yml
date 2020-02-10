@@ -28,6 +28,8 @@ phases:
       #- docker cp testcafe:/tmp/res.xml /tmp/test-results/
 
 
+  post_build:
+    commands:
       - docker exec crs cat /var/log/apache2/error.log
       - docker exec crs cat /var/log/apache2/access.log
       # Fail if ModSecurity log is not empty
