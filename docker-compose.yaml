@@ -8,8 +8,8 @@ services:
     container_name: crs
     ports:
 # 443 is already in use
-      - "8080:8080"
-      - "8443:8443"
+      - "8080:80"
+      - "8443:443"
 
     environment:
       # Application Backend listens on port 8000 (IP: REPLACEME, but do not use localhost!)
