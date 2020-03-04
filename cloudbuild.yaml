@@ -3,11 +3,14 @@
 steps:
 #- name: 'docker/compose:1.19.0'
 #  args: ['up', '-d']
+# Debugging
+#- name: 'ubuntu'
+#  args: [ "touch", "foo" ]
+- name: 'ubuntu'
+  args: [ "ls", "-l" ]
 - name: 'testcafe/testcafe'
-  volumes:
-  - name: 'vol1'
-    path: '/workspace/tests/test.js'
-  args: ['-v', '/workspace/tests/test.js', '--skip-js-errors', 'chromium:headless --no-sandbox']
+#  args: [ "run", "--volume", "/workspace:/workspace", "--rm", "ubuntu", "ls", "-l", "/workspace" ]
+  args: ['--volume', '/workspace/tests/test.js:/tests/test.js', '--skip-js-errors', 'chromium:headless --no-sandbox']
 
 
 #  build:
