@@ -2,7 +2,7 @@
 import { Selector } from 'testcafe';
 
 fixture`Getting Started`
-    .page `http://localhost/login`;
+    .page `http://crs:8080/login`;
 
 test('WAF Test with malicious string', async t => {
     await t
