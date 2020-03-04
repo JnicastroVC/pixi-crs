@@ -1,8 +1,8 @@
 # Google Cloud cloudbuild.yaml
 #
 steps:
-- name: 'docker/compose:1.19.0'
-  args: ['up', '-d']
+#- name: 'docker/compose:1.19.0'
+#  args: ['up', '-d']
 - name: 'testcafe/testcafe'
   args: ['-v', 'tests/test.js', '--skip-js-errors', 'chromium:headless --no-sandbox']
 
