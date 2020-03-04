@@ -2,7 +2,7 @@
 import { Selector } from 'testcafe';
 
 fixture`Getting Started`
-    .page `http://pixicrs_app_1:8000/register`;
+    .page `http://localhost:8000/register`;
 
 test('Register User', async t => {
     await t
