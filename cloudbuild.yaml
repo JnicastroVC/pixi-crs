@@ -11,7 +11,7 @@ steps:
 #- name: 'ubuntu'
 #  args: [ "pwd" ]
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe" ]
+  args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "chromium:headless --no-sandbox" ]
 #  args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "ls", "-l", "/tests" ]
 - name: 'testcafe/testcafe'
 #  args: [ "run", "--volume", "/workspace:/workspace", "--rm", "ubuntu", "ls", "-l", "/workspace" ]
