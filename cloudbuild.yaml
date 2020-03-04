@@ -4,6 +4,9 @@ steps:
 #- name: 'docker/compose:1.19.0'
 #  args: ['up', '-d']
 - name: 'testcafe/testcafe'
+  volumes:
+  - name: 'vol1'
+    path: 'tests/test.js'
   args: ['-v', 'tests/test.js', '--skip-js-errors', 'chromium:headless --no-sandbox']
 
 
