@@ -6,8 +6,8 @@ steps:
 - name: 'testcafe/testcafe'
   volumes:
   - name: 'vol1'
-    path: 'tests/test.js'
-  args: ['-v', 'tests/test.js', '--skip-js-errors', 'chromium:headless --no-sandbox']
+    path: '/workspace/tests/test.js'
+  args: ['-v', '/workspace/tests/test.js', '--skip-js-errors', 'chromium:headless --no-sandbox']
 
 
 #  build:
