@@ -6,8 +6,8 @@ steps:
 # Debugging possibilities
 #- name: 'ubuntu'
 #  args: [ "touch", "foo" ]
-#- name: 'ubuntu'
-#  args: [ "ls", "-l" ]
+- name: 'ubuntu'
+  args: [ "ls", "-l", "/workspace/testcafe/tests" ]
 #- name: 'ubuntu'
 #  args: [ "pwd" ]
 - name: 'testcafe/testcafe'
