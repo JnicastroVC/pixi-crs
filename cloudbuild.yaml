@@ -3,8 +3,8 @@
 steps:
 - name: 'docker/compose:1.19.0'
   args: ['up', '-d']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['run', '-t', '-v', 'tests/test.js', '--skip-js-errors', 'chromium:headless --no-sandbox', 'testcafe/testcafe', '.']
+- name: 'testcafe/testcafe'
+  args: ['-v', 'tests/test.js', '--skip-js-errors', 'chromium:headless --no-sandbox']
 
 
 #  build:
