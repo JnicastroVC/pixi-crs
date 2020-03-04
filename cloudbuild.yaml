@@ -1,8 +1,9 @@
 # Google Cloud cloudbuild.yaml
 #
 steps:
-#- name: 'docker/compose:1.19.0'
-#  args: ['up', '-d']
+- name: 'docker/compose:1.19.0'
+  id: 'Starting Pixi and CRS with docker-compose up'
+  args: ['up', '-d']
 # Debugging possibilities
 #- name: 'ubuntu'
 #  args: [ "touch", "foo" ]
