@@ -12,7 +12,7 @@ steps:
 #  args: [ "pwd" ]
 - name: 'testcafe/testcafe'
 #  args: [ "run", "--volume", "/workspace:/workspace", "--rm", "ubuntu", "ls", "-l", "/workspace" ]
-  args: ['--volume', '/workspace/testcafe/tests/:/tests', '--skip-js-errors', 'chromium:headless --no-sandbox']
+  args: ['--volume', '/workspace/testcafe/tests:/tests', '--skip-js-errors', 'chromium:headless --no-sandbox']
 
 
 #  build:
