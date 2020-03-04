@@ -8,9 +8,11 @@ steps:
 #  args: [ "touch", "foo" ]
 - name: 'ubuntu'
   args: [ "ls", "-l" ]
+- name: 'ubuntu'
+  args: [ "pwd" ]
 - name: 'testcafe/testcafe'
 #  args: [ "run", "--volume", "/workspace:/workspace", "--rm", "ubuntu", "ls", "-l", "/workspace" ]
-  args: ['--volume', '/workspace/tests/test.js:/tests/test.js', '--skip-js-errors', 'chromium:headless --no-sandbox']
+  args: ['--volume', '/workspace/testcafe/tests/test.js:/tests/test.js', '--skip-js-errors', 'chromium:headless --no-sandbox']
 
 
 #  build:
