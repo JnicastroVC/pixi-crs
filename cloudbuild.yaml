@@ -4,7 +4,6 @@ steps:
 - name: 'gcr.io/$PROJECT_ID/docker-compose'
   args: ['up']
 tags: ['cloud-builders-community']
-
 - name: 'gcr.io/cloud-builders/docker'
   args: ['run', '-t', '-v', 'tests/test.js', '--skip-js-errors', 'chromium:headless --no-sandbox', 'testcafe/testcafe', '.']
 
