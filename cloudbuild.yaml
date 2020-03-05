@@ -11,6 +11,12 @@ steps:
 #  args: [ "ls", "-l", "/workspace/testcafe/tests" ]
 #- name: 'ubuntu'
 #  args: [ "pwd" ]
+# Debugging with curl
+steps:
+- name: gcr.io/cloud-builders/curl
+  args: ['http://127.17.0.1:8000/register']
+- name: gcr.io/cloud-builders/curl
+  args: ['http://127.17.0.1:8080/register']
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Run Testcafe Tests: Pixi'
   args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "chromium:headless --no-sandbox", "--skip-js-errors", "/tests/test.js" ]
