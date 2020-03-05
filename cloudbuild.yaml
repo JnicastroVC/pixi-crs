@@ -1,9 +1,16 @@
 # Google Cloud cloudbuild.yaml
 #
 steps:
+# Start the OWASP ModSecurity Core Rule Set and Pixi with its DB with docker-compose
+# OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
+# owasp/modsecurity-crs
+# See https://coreruleset.org/
+# ModSecurity Tuning:
+# See https://www.netnea.com/cms/apache-tutorial-8_handling-false-positives-modsecurity-core-rule-set/
 - name: 'docker/compose:1.19.0'
   id: 'Starting Pixi and CRS with docker-compose up'
   args: ['up', '-d']
+
 # Debugging possibilities
 #- name: 'ubuntu'
 #  args: [ "touch", "foo" ]
@@ -16,6 +23,9 @@ steps:
 #  args: [ "-v", "http://172.17.0.1:8000/register"]
 #- name: 'curlimages/curl:7.69.0'
 #  args: [ "-v", "http://172.17.0.1:8080/register"]
+
+# Application Tests with Testcafe
+# skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Run Testcafe Tests: Pixi without and with CRS'
   args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "chromium:headless --no-sandbox", "--skip-js-errors" ]
@@ -26,43 +36,24 @@ steps:
 #  args: ['--volume', '/workspace/testcafe/tests:/tests', 'chromium:headless --no-sandbox', '/tests/test.js']
 #  args: ['--volume', '/workspace/testcafe/tests:/tests', '--skip-js-errors', 'chromium:headless --no-sandbox']
 
+# ModSecurity Log Analysis:
+# Fail if ModSecurity log is not empty
+# Show ModSecurity logs of Testcafe Tests
+# If not empty -> Repair your application OR
+#              -> ModSecurity Tuning:
+# See https://www.netnea.com/cms/apache-tutorial-8_handling-false-positives-modsecurity-core-rule-set/ OR
+#              -> GitHub issue: https://github.com/SpiderLabs/owasp-modsecurity-crs
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Fail if ModSecurity log is not empty'
+  args: [ "exec", "crs", 'cat /var/log/apache2/error.log | grep ModSecurity | grep error | grep -vi "MyEvilWAFTest" | grep -v "949110" | grep -vi "980130" && exit 1 || exit 0' ]
 
-#  build:
-#    commands:
-#      - npm install -g testcafe
-#      # Start the OWASP ModSecurity Core Rule Set and Pixi with its DB with docker-compose
-#      # OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
-#      # owasp/modsecurity-crs
-#      # See https://coreruleset.org/
-#      # ModSecurity Tuning:
-#      # See https://www.netnea.com/cms/apache-tutorial-8_handling-false-positives-modsecurity-core-rule-set/
-#      - docker-compose up -d
-#
-#      # Application Tests with Testcafe
-#      # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
-#      - testcafe "chrome:headless" testcafe/tests/test.js --skip-js-errors
-#      # Application Tests with CRS with Testcafe
-#      - testcafe "chrome:headless" testcafe/tests/testcrs.js --skip-js-errors
-#      # WAF Tests with malicous request to test WAF itself
-#      - testcafe "chrome:headless" testcafe/tests/testwaf.js --skip-js-errors
-#
-#      #- docker cp testcafe:/tmp/res.xml /tmp/test-results/
-#
-#
-#  post_build:
-#    commands:
-#      # Fail if ModSecurity log is not empty
-#      # Show ModSecurity logs of Testcafe Tests
-#      - docker exec crs cat /var/log/apache2/error.log | grep ModSecurity | grep error | grep -vi "MyEvilWAFTest" | grep -v "949110" | grep -vi "980130" && exit 1 || exit 0
-#
-#      # If not empty -> Repair your application OR
-#      #              -> ModSecurity Tuning:
-#      # See https://www.netnea.com/cms/apache-tutorial-8_handling-false-positives-modsecurity-core-rule-set/ OR
-#      #              -> GitHub issue: https://github.com/SpiderLabs/owasp-modsecurity-crs
-#              
-#      # Fail if ModSecurity log does not contain WAF Test String "MyEvilWAFTest"
-#      # That means CRS is not working properly or test was aborted.
-#      - docker exec crs cat /var/log/apache2/error.log | grep -q MyEvilWAFTest
-#
-#      # Show ModSecurity Full Logs:
-##      - docker exec crs cat /var/log/apache2/error.log | grep ModSecurity | grep msg
+# Fail if ModSecurity log does not contain WAF Test String "MyEvilWAFTest"
+# That means CRS is not working properly or test was aborted.
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Fail if ModSecurity log does not contain WAF Test String'
+  args: [ "exec", "crs", 'cat /var/log/apache2/error.log | grep  -q MyEvilWAFTest' ]
+
+# Show ModSecurity Full Logs:
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Fail if ModSecurity log does not contain WAF Test String'
+  args: [ "exec", "crs", 'cat /var/log/apache2/error.log | grep  ModSecurity | grep msg' ]
