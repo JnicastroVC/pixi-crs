@@ -55,5 +55,5 @@ steps:
 
 # Show ModSecurity Full Logs:
 - name: 'gcr.io/cloud-builders/docker'
-  id: 'Fail if ModSecurity log does not contain WAF Test String'
+  id: 'Show ModSecurity logs'
   args: [ "exec", "crs", 'cat /var/log/apache2/error.log | grep  ModSecurity | grep msg' ]
