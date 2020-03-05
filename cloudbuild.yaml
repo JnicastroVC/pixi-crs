@@ -12,8 +12,15 @@ steps:
 #- name: 'ubuntu'
 #  args: [ "pwd" ]
 - name: 'gcr.io/cloud-builders/docker'
-  id: 'Run Testcafe Tests'
-  args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "chromium:headless --no-sandbox", "--skip-js-errors" ]
+  id: 'Run Testcafe Tests: Pixi'
+  args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "/tests/test.js", "chromium:headless --no-sandbox", "--skip-js-errors" ]
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Run Testcafe Tests: Pixi CRS'
+  args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "/tests/testcrs.js", "chromium:headless --no-sandbox", "--skip-js-errors" ]
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Run Testcafe Tests: Malicious CRS'
+  args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "/tests/testwaf.js", "chromium:headless --no-sandbox", "--skip-js-errors" ]
+
 #  args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "ls", "-l", "/tests" ]
 #- name: 'testcafe/testcafe'
 #  args: [ "run", "--volume", "/workspace:/workspace", "--rm", "ubuntu", "ls", "-l", "/workspace" ]
