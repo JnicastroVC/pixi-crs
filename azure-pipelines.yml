@@ -1,5 +1,48 @@
 # Google Cloud cloudbuild.yaml
 #
+
+stages:
+- stage: Build
+  jobs:
+  - job: BuildJob
+    steps:
+      - task: DockerCompose@0
+        displayName: Start Pixi and CRS with docker-compose up
+        inputs:
+          action: Run services
+          containerregistrytype: Container Registry
+          dockerRegistryEndpoint: DockerHub
+          dockerComposeFile: docker-compose.yaml
+
+#  displayName: Run services
+#  inputs:
+#    action: Run services
+#    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+#    azureContainerRegistry: $(azureContainerRegistry)
+#    dockerComposeFile: docker-compose.ci.build.yml
+#    projectName: $(Build.Repository.Name)
+#    qualifyImageNames: true
+#    buildImages: true
+#    abortOnContainerExit: true
+#    detached: false
+
+
+#- stage: Test
+#  jobs:
+#  - job: TestOnWindows
+#    steps:
+#    - script: echo Testing on Windows!
+#  - job: TestOnLinux
+#    steps:
+#    - script: echo Testing on Linux!
+#- stage: Deploy
+#  jobs:
+#  - job: Deploy
+#    steps:
+#    - script: echo Deploying the code!
+
+
+
 steps:
 # Start the OWASP ModSecurity Core Rule Set and Pixi with its DB with docker-compose
 # OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
@@ -7,9 +50,9 @@ steps:
 # See https://coreruleset.org/
 # ModSecurity Tuning:
 # See https://www.netnea.com/cms/apache-tutorial-8_handling-false-positives-modsecurity-core-rule-set/
-- id: 'Starting Pixi and CRS with docker-compose up'
-  name: 'docker/compose:1.19.0'
-  args: ['up', '-d']
+#- id: 'Starting Pixi and CRS with docker-compose up'
+#  name: 'docker/compose:1.19.0'
+#  args: ['up', '-d']
 
 # Debugging possibilities
 #- name: 'ubuntu'
@@ -26,9 +69,9 @@ steps:
 
 # Application Tests with Testcafe
 # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
-- id: 'Run Testcafe Tests: Pixi without and with CRS'
-  name: 'gcr.io/cloud-builders/docker'
-  args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "chromium:headless --no-sandbox", "--skip-js-errors" ]
+#- id: 'Run Testcafe Tests: Pixi without and with CRS'
+#  name: 'gcr.io/cloud-builders/docker'
+#  args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "chromium:headless --no-sandbox", "--skip-js-errors" ]
 
 # ModSecurity Log Analysis:
 # Fail if ModSecurity log is not empty
@@ -52,7 +95,7 @@ steps:
 #  name: 'gcr.io/cloud-builders/docker'
 #  args: [ "ps" ]
 # Show ModSecurity Full Logs:
-- id: 'Show ModSecurity logs'
-  name: 'gcr.io/cloud-builders/docker'
-  args: [ "exec", "crs", "cat", "/var/log/apache2/error.log", "|", "grep", "ModSecurity" ]
+#- id: 'Show ModSecurity logs'
+#  name: 'gcr.io/cloud-builders/docker'
+#  args: [ "exec", "crs", "cat", "/var/log/apache2/error.log", "|", "grep", "ModSecurity" ]
 #  args: [ "exec", "crs", 'cat /var/log/apache2/error.log | grep  ModSecurity | grep msg' ]
