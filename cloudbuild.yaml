@@ -47,12 +47,12 @@ steps:
 #  name: 'gcr.io/cloud-builders/docker'
 #  args: [ "exec", "crs", 'cat /var/log/apache2/error.log | grep  -q MyEvilWAFTest' ]
 
-# Debugging
-- id: 'Docker'
-  name: 'gcr.io/cloud-builders/docker'
-  args: [ "ps" ]
+# Debugging docker
+#- id: 'Docker'
+#  name: 'gcr.io/cloud-builders/docker'
+#  args: [ "ps" ]
 # Show ModSecurity Full Logs:
 - id: 'Show ModSecurity logs'
   name: 'gcr.io/cloud-builders/docker'
-  args: [ "exec", "crs", "cat /var/log/apache2/error.log" ]
+  args: [ "exec", "-d", "crs", "cat /var/log/apache2/error.log" ]
 #  args: [ "exec", "crs", 'cat /var/log/apache2/error.log | grep  ModSecurity | grep msg' ]
