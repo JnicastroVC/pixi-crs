@@ -7,8 +7,8 @@ steps:
 # See https://coreruleset.org/
 # ModSecurity Tuning:
 # See https://www.netnea.com/cms/apache-tutorial-8_handling-false-positives-modsecurity-core-rule-set/
-- name: 'docker/compose:1.19.0'
-  id: 'Starting Pixi and CRS with docker-compose up'
+- id: 'Starting Pixi and CRS with docker-compose up'
+  name: 'docker/compose:1.19.0'
   args: ['up', '-d']
 
 # Debugging possibilities
@@ -26,15 +26,9 @@ steps:
 
 # Application Tests with Testcafe
 # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'Run Testcafe Tests: Pixi without and with CRS'
+- id: 'Run Testcafe Tests: Pixi without and with CRS'
+  name: 'gcr.io/cloud-builders/docker'
   args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "chromium:headless --no-sandbox", "--skip-js-errors" ]
-
-#  args: [ "run", "--volume", "/workspace/testcafe/tests:/tests", "--rm", "testcafe/testcafe", "ls", "-l", "/tests" ]
-#- name: 'testcafe/testcafe'
-#  args: [ "run", "--volume", "/workspace:/workspace", "--rm", "ubuntu", "ls", "-l", "/workspace" ]
-#  args: ['--volume', '/workspace/testcafe/tests:/tests', 'chromium:headless --no-sandbox', '/tests/test.js']
-#  args: ['--volume', '/workspace/testcafe/tests:/tests', '--skip-js-errors', 'chromium:headless --no-sandbox']
 
 # ModSecurity Log Analysis:
 # Fail if ModSecurity log is not empty
@@ -43,17 +37,17 @@ steps:
 #              -> ModSecurity Tuning:
 # See https://www.netnea.com/cms/apache-tutorial-8_handling-false-positives-modsecurity-core-rule-set/ OR
 #              -> GitHub issue: https://github.com/SpiderLabs/owasp-modsecurity-crs
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'Fail if ModSecurity log is not empty'
-  args: [ "exec", "crs", 'cat /var/log/apache2/error.log | grep ModSecurity | grep error | grep -vi "MyEvilWAFTest" | grep -v "949110" | grep -vi "980130" && exit 1 || exit 0' ]
+- id: 'Fail if ModSecurity log is not empty'
+  name: 'gcr.io/cloud-builders/docker'
+  args: [ 'exec', 'crs', 'cat /var/log/apache2/error.log | grep ModSecurity | grep error | grep -vi "MyEvilWAFTest" | grep -v "949110" | grep -vi "980130" && exit 1 || exit 0' ]
 
 # Fail if ModSecurity log does not contain WAF Test String "MyEvilWAFTest"
 # That means CRS is not working properly or test was aborted.
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'Fail if ModSecurity log does not contain WAF Test String'
+- id: 'Fail if ModSecurity log does not contain WAF Test String'
+  name: 'gcr.io/cloud-builders/docker'
   args: [ "exec", "crs", 'cat /var/log/apache2/error.log | grep  -q MyEvilWAFTest' ]
 
 # Show ModSecurity Full Logs:
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'Show ModSecurity logs'
+- id: 'Show ModSecurity logs'
+  name: 'gcr.io/cloud-builders/docker'
   args: [ "exec", "crs", 'cat /var/log/apache2/error.log | grep  ModSecurity | grep msg' ]
