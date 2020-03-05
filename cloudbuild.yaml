@@ -54,5 +54,5 @@ steps:
 # Show ModSecurity Full Logs:
 - id: 'Show ModSecurity logs'
   name: 'gcr.io/cloud-builders/docker'
-  args: [ "exec", "-d", "crs", "ls -l" ]
+  args: [ "exec", "-d", "crs", "ls" ]
 #  args: [ "exec", "crs", 'cat /var/log/apache2/error.log | grep  ModSecurity | grep msg' ]
