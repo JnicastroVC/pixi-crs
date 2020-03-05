@@ -7,12 +7,12 @@ stages:
   - job: BuildJob
     steps:
       - task: DockerCompose@0
-        displayName: Start Pixi and CRS with docker-compose up
         inputs:
-          action: Run services
-          containerregistrytype: Container Registry
-          dockerRegistryEndpoint: DockerHub
-          dockerComposeFile: docker-compose.yaml
+          containerregistrytype: 'Container Registry'
+          dockerComposeFile: '**/docker-compose.yaml'
+          action: 'Run a Docker Compose command'
+          dockerComposeCommand: 'up'
+
 
 #  displayName: Run services
 #  inputs:
