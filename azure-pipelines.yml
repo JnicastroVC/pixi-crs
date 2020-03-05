@@ -1,5 +1,5 @@
-# Google Cloud cloudbuild.yaml
-#
+# Azure DevOps azure-pipelines.yml
+
 
 stages:
 - stage: Build
@@ -10,7 +10,7 @@ stages:
         inputs:
           containerregistrytype: 'Container Registry'
           dockerComposeFile: '**/docker-compose.yaml'
-          action: 'Start Pixi and CRS with docker-compose up'
+          action: 'Run a Docker Compose command'
           dockerComposeCommand: 'up'
 
 
