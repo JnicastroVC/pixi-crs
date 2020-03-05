@@ -10,7 +10,7 @@ stages:
         inputs:
           containerregistrytype: 'Container Registry'
           dockerComposeFile: '**/docker-compose.yaml'
-          action: 'Run a Docker Compose command'
+          action: 'Start Pixi and CRS with docker-compose up'
           dockerComposeCommand: 'up'
 
 
