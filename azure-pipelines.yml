@@ -1,5 +1,7 @@
 # Azure DevOps azure-pipelines.yml
 
+trigger:
+- azure
 
 stages:
 - stage: Build
