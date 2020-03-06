@@ -15,8 +15,9 @@ stages:
   jobs:
   - job: BuildJob
     steps:
-      - script: pwd
-      - script: ls
+      # Debugging
+      # - script: pwd
+      # - script: ls
       - task: DockerCompose@0
         displayName: Start Pixi and CRS
         inputs:
@@ -32,7 +33,7 @@ stages:
   - job: RunsInContainer
     container: # inline container specification
       image: testcafe/testcafe
-      options: --volume testcafe/tests:/tests --rm chromium:headless --no-sandbox --skip-js-errors
+      options: --volume testcafe/tests:/tests --rm 'chromium:headless --no-sandbox' --skip-js-errors
 
     
 
