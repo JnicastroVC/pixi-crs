@@ -8,7 +8,6 @@ stages:
 - stage: Debugging
   steps:
   - script: pwd
-  steps:
   - script: ls
 
 # Start the OWASP ModSecurity Core Rule Set and Pixi with its DB with docker-compose
