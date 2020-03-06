@@ -5,6 +5,12 @@ trigger:
 
 stages:
 
+- stage: Debugging
+  steps:
+  - script: pwd
+  steps:
+  - script: ls
+
 # Start the OWASP ModSecurity Core Rule Set and Pixi with its DB with docker-compose
 # OWASP ModSecurity Core Rule Set Container (Apache Reverse Proxy)
 # owasp/modsecurity-crs
@@ -15,7 +21,6 @@ stages:
   jobs:
   - job: BuildJob
     steps:
-
       - task: DockerCompose@0
         displayName: Start Pixi and CRS
         inputs:
@@ -31,7 +36,7 @@ stages:
   - job: RunsInContainer
     container: # inline container specification
       image: testcafe/testcafe
-      options: run --volume /workspace/testcafe/tests:/tests --rm chromium:headless --no-sandbox --skip-js-errors
+      options: --volume testcafe/tests:/tests --rm chromium:headless --no-sandbox --skip-js-errors
 
     
 
