@@ -31,7 +31,7 @@ stages:
   - job: RunsInContainer
     container: # inline container specification
       image: testcafe/testcafe
-      options: run --volume /workspace/testcafe/tests:/tests --rm testcafe/testcafe chromium:headless --no-sandbox --skip-js-errors
+      options: run --volume /workspace/testcafe/tests:/tests --rm chromium:headless --no-sandbox --skip-js-errors
 
     
 
