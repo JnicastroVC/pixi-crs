@@ -11,7 +11,7 @@ stages:
 # See https://coreruleset.org/
 # ModSecurity Tuning:
 # See https://www.netnea.com/cms/apache-tutorial-8_handling-false-positives-modsecurity-core-rule-set/
-- stage: Start Pixi and CRS Container
+- stage: StartContainers
   jobs:
   - job: BuildJob
     steps:
@@ -26,7 +26,7 @@ stages:
 
 # Application Tests with Testcafe
 # skip-js-errors because of: Uncaught Error: Bootstrap tooltips require Tether
-- stage: Run Testcafe Tests
+- stage: RunTestcafeTests
   jobs:
   - job: RunsInContainer
     container: # inline container specification
